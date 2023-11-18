@@ -71,3 +71,35 @@ def main():
   
 if __name__ == '__main__':
     main()
+
+
+# DFS Solution
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
+        def dfs(stones, adj, visited, i):
+            visited[i] = 1
+            for nei in adj[i]:
+                if visited[nei] == 0:
+                    dfs(stones, adj, visited, nei)
+
+
+        def shareSameRowOrColumn(a, b):
+            return a[0] == b[0] or a[1] == b[1]
+
+
+        n = len(stones)
+        adj = [[] for _ in range(n)]
+        for i in range(n):
+            for j in range(i + 1, n):
+                if shareSameRowOrColumn(stones[i], stones[j]):
+                    adj[i].append(j)
+                    adj[j].append(i)
+        
+        visited = [0] * n
+        componentCount = 0
+        for i in range(n):
+            if visited[i] == 0:
+                componentCount += 1
+                dfs(stones, adj, visited, i)
+
+        return len(stones) - componentCount
