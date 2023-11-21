@@ -168,3 +168,58 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# rewrite so i can understand
+class WordDictionary:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def add_word(self, word):
+        curr = self.root
+        for c in word:
+            index = ord(c.lower()) - ord('a')
+            if not curr.children[index]:
+                curr.children[index] = TrieNode()
+            curr = curr.children[index]
+        curr.complete = True
+
+    def search_word(self, word):
+        def helper(word, node):
+            for i, c in enumerate(word):
+                index = ord(c.lower()) - ord('a')
+                if not (0 <= index < 26) or not node.children[index]:
+                    if c == '.':
+                        for j in range(26):
+                            if node.children[j] and helper(word[i + 1:], node.children[j]):
+                                return True
+                        return False
+                else:
+                    node = node.children[index]
+            
+            return node.complete
+
+        return helper(word, self.root)
+
+    def get_words(self):
+        def dfs(node, word, output):
+            if not node:
+                return output
+            
+            if node.complete:
+                output.append(word)
+            
+            for i in range(26):
+                prefix = word + chr(i + ord('a'))
+                output = dfs(node.children[i], prefix, output)
+            
+            return output
+
+
+        output = []
+        if not self.root:
+            return []
+        return dfs(self.root, "", output)
+        
+
+
+
