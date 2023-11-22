@@ -1,4 +1,5 @@
 from collections import defaultdict
+from typing import List
 
 class UnionFind():
     def __init__(self, n) -> None:
@@ -57,31 +58,36 @@ class Solution:
         return output
     
 # SOLUTION
-from union_find import *
 from collections import defaultdict
 
 def accounts_merge(accounts):
-
+    # initialize a constructor that will create the parents array with unique IDs
     uf = UnionFind(len(accounts))
+    
+    # create a map for mapping emails to their parent IDs
     email_mapping = {}
-
     for i, account in enumerate(accounts):
         emails = account[1:]
-
         for email in emails:
+
+            # if the email already exists in the map, take union
             if email in email_mapping:
+
+                # before we take the union, make sure both the accounts have the same name 
                 if account[0] != accounts[email_mapping[email]][0]: 
                     return
                 uf.union(email_mapping[email], i)
 
+            # add email with its ID to the map
             email_mapping[email] = i
         
+    # create a map to store the merged accounts
     merged_accounts = defaultdict(list)
     for email, ids in email_mapping.items():
         merged_accounts[uf.find(ids)].append(email)
 
+    # sort the merged accounts
     final_merged =[]
-    
     for parent, emails in merged_accounts.items():
         final_merged.append([accounts[parent][0]]+sorted(emails))
     return final_merged
