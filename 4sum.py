@@ -1,5 +1,54 @@
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        def twoSum(nums, target):
+            res = []
+            l, r = 0, len(nums) - 1
+            while l < r:
+                curr_sum = nums[l] + nums[r]
+                if curr_sum < target:
+                    l += 1
+                elif curr_sum > target:
+                    r -= 1
+                else:
+                    res.append([nums[l], nums[r]])
+                    l += 1
+                    r -= 1
+                    while l < r and nums[l] == nums[l - 1]:
+                        l += 1
+                
+            
+            return res
+
+        def kSum(nums, target, k):
+            output = []
+            if not nums:
+                return output
+            
+            avg_val = target // k
+
+            if nums[0] > avg_val or nums[-1] < avg_val:
+                return output
+            
+            if k == 2:
+                return twoSum(nums, target)
+
+            for i, num in enumerate(nums):
+                if i == 0 or nums[i] != nums[i - 1]:
+                    subsets = kSum(nums[i + 1:], target - num, k - 1)
+                    for subset in subsets:
+                        output.append(subset + [num])
+            
+            return output
+
+
+        nums.sort()
+        return kSum(nums, target, 4)
+
+# solution
+
+
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
 	
         def kSum(nums: List[int], target: int, k: int) -> List[List[int]]:
             res = []
