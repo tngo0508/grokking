@@ -19,7 +19,7 @@ class Solution:
         for i in range(n):
             visited = set()
             dfs.ans = i
-            ans = dfs(graph, i, quiet, visited)
+            dfs(graph, i, quiet, visited)
             result.append(dfs.ans)
 
         return result
