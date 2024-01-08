@@ -1,25 +1,29 @@
-from typing import List
+def construct_message(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
 
-def traverse(row: int, col: int, grid: List[List[int]], num_rows: int, num_cols: int) -> int:
-    while 0 <= row < num_rows and 0 <= col < num_cols:
-        if row == num_rows - 1:
-            if grid[row][col] == -1:
-                return col - 1 if col - 1 >= 0 else -1
-            else:
-                return col + 1 if col + 1 < num_cols else -1
-        if grid[row][col] == 1:
-            if 0 <= col + 1 < num_cols and grid[row][col + 1] == -1:
-                return -1
-            col += 1
-        elif grid[row][col] == -1:
-            if 0 <= col - 1 < num_cols and grid[row][col - 1] == 1:
-                return -1
-            col -= 1
-        row += 1
-    return -1
+    words = {}
+    for line in lines:
+        number, word = line.split()
+        words[int(number)] = word.strip()
 
-def find_exit_column(grid: List[List[int]]) -> List[int]:
-    num_rows = len(grid)
-    num_cols = len(grid[0])
-    exit_columns = [traverse(0, col, grid, num_rows, num_cols) for col in range(num_cols)]
-    return exit_columns
+    pyramid = []
+    current_line = []
+    total_words = 0
+
+    for number, word in sorted(words.items()):
+        current_line.append(word)
+        total_words += 1
+
+        if total_words == number:
+            pyramid.append(current_line.copy())
+            current_line.clear()
+            total_words = 0
+
+    message = ' '.join(word for line in pyramid for word in line)
+    return message
+
+# Example usage:
+file_path = 'c:\\Users\\tngo0\\Downloads\\coding_qual_input.txt'
+result = construct_message(file_path)
+print(result)
