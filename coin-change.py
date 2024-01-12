@@ -92,3 +92,23 @@ class Solution:
 
         result = dfs(amount)
         return result if result != float('inf') else -1
+    
+# Dynamic Programming
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        if amount == 0:
+            return 0
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+        for coin in coins:
+            if coin < amount + 1:
+                dp[coin] = 1
+        for amnt in range(amount + 1):
+            for coin in coins:
+                if amnt - coin >= 0:
+                    dp[amnt] =  min(dp[amnt], dp[amnt - coin] + dp[coin])
+                
+        
+        return dp[-1] if dp[-1] != float('inf') else -1
+            
+
