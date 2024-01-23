@@ -1,3 +1,33 @@
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.hash_map = OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key not in self.hash_map:
+            return -1
+        val = self.hash_map[key]
+        del self.hash_map[key]
+        self.hash_map[key] = val
+        return val
+        
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.hash_map:
+            del self.hash_map[key]
+            
+        self.hash_map[key] = value
+        if len(self.hash_map) > self.capacity:
+            self.hash_map.popitem(last=False)
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+            
+# Cleaner solution - use move_to_end API
 from collections import OrderedDict
 
 class LRUCache:
