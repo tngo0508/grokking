@@ -63,3 +63,36 @@ class Solution:
             curr = curr.next
         
         return dummy.next
+    
+# Divide and conquer approach
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        def merge(p1, p2):
+            dummy = ListNode(-1)
+            curr = dummy
+            while p1 and p2:
+                if p1.val < p2.val:
+                    curr.next = p1
+                    p1 = p1.next
+                else:
+                    curr.next = p2
+                    p2 = p2.next
+                curr = curr.next
+            
+            curr.next = p1 if p1 else p2
+            return dummy.next
+
+
+        if not lists:
+            return None
+        if len(lists) == 1:
+            return lists[0]
+        mid = len(lists) // 2
+        p1 = self.mergeKLists(lists[:mid])
+        p2 = self.mergeKLists(lists[mid:])
+        return merge(p1, p2)
