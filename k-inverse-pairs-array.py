@@ -25,3 +25,38 @@ class Solution:
                 res += 1
         
         return res
+    
+# Better Brute Foruce - TLE
+class Solution:
+    def kInversePairs(self, n: int, k: int) -> int:
+        MOD = 10**9 + 7
+        def dfs(max_num, pairs):
+            if pairs < 0:
+                return 0
+            if max_num == 0:
+                return pairs == 0
+            res = 0
+            for i in range(max_num):
+                res = (res + dfs(max_num - 1, pairs - i)) % MOD
+
+            return res
+
+        return dfs(n, k)
+    
+# Memoization
+class Solution:
+    def kInversePairs(self, n: int, k: int) -> int:
+        MOD = 10**9 + 7
+        @cache
+        def dfs(max_num, pairs):
+            if pairs < 0:
+                return 0
+            if max_num == 0:
+                return pairs == 0
+            res = 0
+            for i in range(min(pairs + 1, max_num)):
+                res = (res + dfs(max_num - 1, pairs - i)) % MOD
+
+            return res
+
+        return dfs(n, k)
