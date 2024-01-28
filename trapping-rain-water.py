@@ -1,3 +1,17 @@
+# Brute force - TLE
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        res = 0
+        for i in range(1, len(height)):
+            l = r = 0
+            for j in range(i, -1, -1):
+                l = max(l, height[j])
+            for j in range(i, len(height)):
+                r = max(r, height[j])
+            res += min(l, r) - height[i]
+        return res
+    
+# Dynamic Programming 1D - Accepted - left right approach
 class Solution:
     def trap(self, height: List[int]) -> int:
         N = len(height)
