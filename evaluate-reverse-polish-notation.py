@@ -75,3 +75,23 @@ def evalRPN(self, tokens: List[str]) -> int:
         else:
             stack.append(int(token))
     return stack.pop()
+
+# other implementation
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        map_func = {
+            '+': lambda x, y: x + y,
+            '-': lambda x, y: x - y,
+            '*': lambda x, y: x * y,
+            '/': lambda x, y: int(x / y),  # Convert the result to an integer after division
+        }
+        stack = []
+        for token in tokens:
+            val = token
+            if token in map_func:
+                num1 = int(stack.pop())
+                num2 = int(stack.pop())
+                val = str(map_func[token](num2, num1))
+            stack.append(val)
+
+        return int(stack[0])
