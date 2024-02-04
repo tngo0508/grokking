@@ -48,3 +48,14 @@ class Solution:
                 min_so_far = float('inf')
             min_so_far = min(min_so_far, price)
         return max_profit
+    
+# Editorial solutio
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        res = 0
+
+        # checking if the number current stock is greater than previous, just add the difference
+        for i in range(1,len(prices)):
+            if (prices[i] > prices[i-1]):
+                res += prices[i] - prices[i-1]
+        return res
