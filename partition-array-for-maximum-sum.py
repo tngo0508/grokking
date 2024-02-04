@@ -20,7 +20,7 @@ class Solution:
 
         return dfs(0, [])
     
-# Memoization approach
+# Memoization approach - accepted
 class Solution:
     def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
         N = len(arr)
