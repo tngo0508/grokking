@@ -51,3 +51,21 @@ class Solution:
                 r-=1
 
         return ans
+    
+# Monotonic decreasing stack
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        stack = []
+        curr_max = 0
+        water = 0
+        for end, curr_height in enumerate(height):
+            while stack and height[stack[-1]] < curr_height:
+                j = stack.pop()
+                if stack:
+                    start = stack[-1]
+                    height_start = height[start]
+                    h = min(curr_height, height_start) - height[j]
+                    d = end - start - 1
+                    water += (d * h)
+            stack.append(end)
+        return water
