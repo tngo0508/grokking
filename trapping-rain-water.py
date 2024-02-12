@@ -56,7 +56,6 @@ class Solution:
 class Solution:
     def trap(self, height: List[int]) -> int:
         stack = []
-        curr_max = 0
         water = 0
         for end, curr_height in enumerate(height):
             while stack and height[stack[-1]] < curr_height:
