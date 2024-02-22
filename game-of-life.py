@@ -4,8 +4,6 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        queue = deque()
-        hash_set = set()
         ROWS = len(board)
         COLS = len(board[0])
         clone = [[board[r][c] for c in range(COLS)] for r in range(ROWS)]
