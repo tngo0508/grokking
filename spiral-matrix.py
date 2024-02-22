@@ -32,3 +32,28 @@ class Solution:
             row += 1
             col += 1
         return res
+    
+# clean code
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        N = ROWS * COLS
+        res = []
+        row, col = 0, -1
+        direction = 1
+        while len(res) < N:
+            for _ in range(COLS):
+                col += direction
+                res.append(matrix[row][col])
+            ROWS -= 1
+
+            for _ in range(ROWS):
+                row += direction
+                res.append(matrix[row][col])
+            
+            COLS -= 1
+
+            direction *= -1
+
+        return res
