@@ -7,7 +7,7 @@
 #         self.right = right
 class Solution:
     def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
-        def process_level(queue, is_even = True):
+        def is_valid(queue, is_even = True):
             prev = float('-inf') if is_even else float('inf')
             for _ in range(n):
                 node = queue.popleft()
@@ -35,10 +35,10 @@ class Solution:
         while queue:
             n = len(queue)
             if level % 2 == 0:
-                if not process_level(queue):
+                if not is_valid(queue):
                     return False
             else:
-                if not process_level(queue, is_even=False):
+                if not is_valid(queue, is_even=False):
                     return False
             
             level += 1
