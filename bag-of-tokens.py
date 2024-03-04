@@ -53,3 +53,30 @@ class Solution:
 
         memo = defaultdict(tuple)
         return dfs(power, 0, tuple(tokens))
+    
+# My solution - two pointers - Accepted
+class Solution:
+    def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
+        N = len(tokens)
+        tokens.sort()
+        l, r = 0, N - 1
+        score = 0
+        curr_score = 0
+        while l < r and power < tokens[l]:
+            l += 1
+        while l <= r:
+            while l <= r and power >= tokens[l]:
+                curr_score += 1
+                power -= tokens[l]
+                l +=1
+                score = max(score, curr_score)
+            while r > l and curr_score >= 1 and power < tokens[l]:
+                power += tokens[r]
+                r -= 1
+                curr_score -= 1
+
+            if l >= r:
+                break
+        return score
+
+
