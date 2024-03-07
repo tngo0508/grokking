@@ -54,3 +54,40 @@ class Solution:
             temp[-1].next = None
         
         return temp[0] if temp else None
+    
+# O(1) space approach
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        dummy = ListNode(-1, head)
+        prev_group = dummy
+        curr_ptr = dummy
+        while curr_ptr:
+            prev_group = curr_ptr
+            for _ in range(k):
+                curr_ptr = curr_ptr.next
+                if not curr_ptr:
+                    return dummy.next
+            
+            next_group = curr_ptr.next
+
+            curr = prev_group.next
+            tail = curr
+            prev = None
+            while curr is not next_group:
+                next_node = curr.next
+                curr.next = prev
+                prev = curr
+                curr = next_node
+
+            prev_group.next = prev
+            tail.next = next_group
+            prev_group = tail
+            curr_ptr = tail
+
+        return dummy.next
+
