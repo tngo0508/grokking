@@ -65,3 +65,22 @@ class Solution:
             else:
                 seen_at[count] = i
         return max_len
+
+
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        zero, one, max_len = 0, 0, 0
+        num_dict = {0: -1}
+        for i in range(0, len(nums)):
+            if nums[i] == 0:
+                zero += 1
+            else:
+                one += 1
+            diff = zero - one
+
+            if diff in num_dict:
+                max_len = max(i - num_dict[diff], max_len)
+            else:
+                num_dict[diff] = i
+        
+        return max_len
